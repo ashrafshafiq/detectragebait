@@ -1,0 +1,5 @@
+[build]
+  # Generate openaiConfig.js at build time using
+  # environment variables configured in Netlify.
+  command = "node generateOpenAIConfig.js"
+  publish = "."

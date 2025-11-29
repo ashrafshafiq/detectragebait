@@ -46,10 +46,18 @@ function loadEnv(filePath) {
 function generateConfig() {
   const rootDir = process.cwd();
   const envPath = path.join(rootDir, ".env");
-  const env = loadEnv(envPath);
 
-  const apiKey = env.OPENAI_API_KEY || "";
-  const baseUrl = env.OPENAI_API_BASE_URL || "https://api.openai.com/v1";
+  // Load from a local .env file (for local development) and
+  // allow real environment variables (e.g. Netlify build env)
+  // to override those values.
+  const fileEnv = loadEnv(envPath);
+
+  const apiKey =
+    process.env.OPENAI_API_KEY || fileEnv.OPENAI_API_KEY || "";
+  const baseUrl =
+    process.env.OPENAI_API_BASE_URL ||
+    fileEnv.OPENAI_API_BASE_URL ||
+    "https://api.openai.com/v1";
 
   const output = [
     "// This file is generated from .env by generateOpenAIConfig.js",
@@ -66,4 +74,3 @@ function generateConfig() {
 }
 
 generateConfig();
-
