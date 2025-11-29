@@ -44,7 +44,9 @@ function loadEnv(filePath) {
 }
 
 function generateConfig() {
-  const rootDir = process.cwd();
+  // Always resolve paths relative to this file so the script
+  // works no matter where you invoke `node` from.
+  const rootDir = __dirname;
   const envPath = path.join(rootDir, ".env");
 
   // Load from a local .env file (for local development) and
